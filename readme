@@ -1,0 +1,6 @@
+How to compile de project:
+
+1. Open Game using Game Engine.sln with Visual Studio
+2. Select Game as the startup project
+3. Build Engine project
+4. Use the x64 Debug Preset for the the debugger
