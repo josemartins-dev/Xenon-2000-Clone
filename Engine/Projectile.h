@@ -1,9 +1,9 @@
 #pragma once
 
-#include "EntityComponentSystem.h"
+#include "GameObject.h"
 #include "Vector2D.h"
 
-class Projectile : public Entity
+class Projectile : public GameObject
 {
 public:
 	Projectile();

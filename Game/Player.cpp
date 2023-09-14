@@ -48,8 +48,9 @@ void Player::Init()
 
 	AddComponent<SpriteComponent>("../Assets/graphics/Ship.bmp", true, true);
 	spriteComponent = &GetComponent<SpriteComponent>();
-
-	spriteComponent->Play("PlayerIdle");
+	spriteComponent->CreateAnimation("PlayerTurn", 1, 3, 300);
+	spriteComponent->CreateAnimation("PlayerIdle", 0, 1, 1000);
+	spriteComponent->PlayAnimation("PlayerIdle");
 
 	AddComponent<ColliderComponent>(this, 64, 64);
 
@@ -96,13 +97,13 @@ void Player::Update()
 		|| Input::GetInstance()->GetButtonDown(SDL_CONTROLLER_BUTTON_DPAD_LEFT)
 		|| Input::GetInstance()->GetAxis(SDL_CONTROLLER_AXIS_LEFTX) < 0)
 	{ 
-		spriteComponent->Play("PlayerTurnRight");
+		spriteComponent->PlayAnimation("PlayerTurn");
 		spriteComponent->spriteFlip = SDL_FLIP_HORIZONTAL;
 		playerTransform->velocity.x = -1 * playerSpeed;
 	}
 	else
 	{
-		spriteComponent->Play("PlayerIdle");
+		spriteComponent->PlayAnimation("PlayerIdle");
 		spriteComponent->spriteFlip = SDL_FLIP_NONE;
 		playerTransform->velocity.x = 0;
 	}
@@ -118,7 +119,7 @@ void Player::Update()
 		|| Input::GetInstance()->GetButtonDown(SDL_CONTROLLER_BUTTON_DPAD_RIGHT)
 		|| Input::GetInstance()->GetAxis(SDL_CONTROLLER_AXIS_LEFTX) > 0)
 	{
-		spriteComponent->Play("PlayerTurnRight");
+		spriteComponent->PlayAnimation("PlayerTurn");
 		playerTransform->velocity.x = 1 * playerSpeed;
 	}
 

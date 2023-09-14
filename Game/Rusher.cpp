@@ -24,7 +24,8 @@ void Rusher::Init()
 	AddComponent<TransformComponent>(startPosition.x, startPosition.y);
 	AddComponent<SpriteComponent>("../Assets/graphics/rusherB.bmp", true, true);
 	AddComponent<ColliderComponent>(this, 64, 64);
-	GetComponent<SpriteComponent>().Play("EnemyIdle");
+	GetComponent<SpriteComponent>().CreateAnimation("EnemyIdle", 0, 4, 200);
+	GetComponent<SpriteComponent>().PlayAnimation("EnemyIdle");
 
 	SetName("Rusher");
 	SetTag(Tag::Enemy);

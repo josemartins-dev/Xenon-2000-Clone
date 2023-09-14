@@ -1,7 +1,6 @@
 #include "Companion.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
-#include "GroupLabels.h"
 #include "Input.h"
 #include <iostream>
 #include "GameManager.h"

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "EntityComponentSystem.h"
+#include "GameObject.h"
 
-class Pawn : public Entity
+class Pawn : public GameObject
 {
 public:
 	Pawn();

@@ -7,6 +7,7 @@
 class TransformComponent;
 class SDL_Texture;
 class SDL_Rect;
+struct Animation;
 
 class SpriteComponent : public Component
 {
@@ -20,7 +21,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void Play(const char* animName);
+	void PlayAnimation(const char* animName);
+	void CreateAnimation(const char* animName, int startFrame, int endFrame, int frameRate);
 
 	void SetTexture(const char* texPath);
 
@@ -32,7 +34,7 @@ public:
 
 	int m_animIndex = 0;
 	
-	std::map<const char*, struct Animation> m_animations;
+	std::map<const char*, Animation> m_animations;
 
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 

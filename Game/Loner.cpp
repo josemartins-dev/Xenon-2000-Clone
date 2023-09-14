@@ -1,11 +1,9 @@
 #include "Loner.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
-#include "GroupLabels.h"
 #include "GameManager.h"
 #include "EnemyProjectile.h"
 #include "ColliderComponent.h"
-#include "CollisionComponent.h"
 #include "../include/Box2D/box2d/box2d.h"
 #include <World.h>
 
@@ -33,9 +31,8 @@ void Loner::Init()
 	AddComponent<TransformComponent>(startPosition.x, startPosition.y);
 	AddComponent<SpriteComponent>("../Assets/graphics/LonerA.bmp", true, true);
 	AddComponent<ColliderComponent>(this, 64, 64);
-	//GetComponent<ColliderComponent>().SetCollisionFilter(EntityCategory::ENEMY, 0x0001);
-	//AddComponent<CollisionComponent>();
-	GetComponent<SpriteComponent>().Play("EnemyIdle");
+	GetComponent<SpriteComponent>().CreateAnimation("EnemyIdle", 0, 4, 200);
+	GetComponent<SpriteComponent>().PlayAnimation("EnemyIdle");
 
 	SetName("Loner");
 	SetTag(Tag::Enemy);

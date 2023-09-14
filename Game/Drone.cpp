@@ -1,7 +1,6 @@
 #include "Drone.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
-#include "GroupLabels.h"
 #include "GameManager.h"
 #include "EnemyProjectile.h"
 #include <ColliderComponent.h>
@@ -27,8 +26,8 @@ void Drone::Init()
 	AddComponent<TransformComponent>(startPosition.x, startPosition.y);
 	AddComponent<SpriteComponent>("../Assets/graphics/droneA.bmp", false, false);
 	AddComponent<ColliderComponent>(this, 64, 64);
-	//GetComponent<ColliderComponent>().SetCollisionFilter(EntityCategory::ENEMY, 0x0001);
-	GetComponent<SpriteComponent>().Play("DroneIdle");
+	GetComponent<SpriteComponent>().CreateAnimation("DroneIdle", 0, 16, 200);
+	GetComponent<SpriteComponent>().PlayAnimation("DroneIdle");
 
 	SetName("Drone");
 	SetTag(Tag::Enemy);

@@ -35,7 +35,12 @@ public:
 	static SDL_Event event;
 	static Manager manager;
 
-private:
+private:	
+	void InitializeSDL();
+	void InitializeWindow(const char* windowTitle, int windowWidth, int windowHeight, bool isFullScreen);
+	void InitializeRenderer();
+	void Cleanup();
+
 	SDLWrapper* m_sdl = nullptr;
 	Window* m_window = nullptr;
 	static Renderer* m_renderer;

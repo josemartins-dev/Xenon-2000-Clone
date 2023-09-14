@@ -25,7 +25,8 @@ void ShieldPickup::Init()
 
 	AddComponent<TransformComponent>(startPosition.x, startPosition.y);
 	AddComponent<SpriteComponent>("../Assets/graphics/ShieldPickup.bmp", true, true);
-	GetComponent<SpriteComponent>().Play("PickupIdle");
+	GetComponent<SpriteComponent>().CreateAnimation("PickupIdle", 0, 8, 150);
+	GetComponent<SpriteComponent>().PlayAnimation("PickupIdle");
 	AddComponent<ColliderComponent>(this, 64, 64);
 
 	SetName("WeaponPickup");

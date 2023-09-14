@@ -3,9 +3,7 @@
 #include <iostream>
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
-#include "PlayerController.h"
 #include "Vector2D.h"
-#include "GroupLabels.h"
 #include "../Game/GameManager.h"
 #include "Explosion.h"
 

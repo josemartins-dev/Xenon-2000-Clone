@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Animation.h"
 #include "GameEngine.h"
+#include "LogOutput.h"
 
 SpriteComponent::SpriteComponent(const char* texPath)
 {
@@ -17,25 +18,6 @@ SpriteComponent::SpriteComponent(const char* texPath, bool isAnimated, bool isLo
 {
 	m_animated = isAnimated;
 	m_loopable = isLoop;
-
-	Animation m_playerIdle = Animation(0, 1, 1000);
-	Animation m_playerTurnRight = Animation(1, 3, 300);
-
-	Animation m_enemyIdle = Animation(0, 4, 200);
-
-	Animation m_droneIdle = Animation(0, 16, 200);
-
-	Animation m_explosion = Animation(0, 10, 95);
-
-	Animation m_pickupIdle = Animation(0, 8, 150);
-
-	m_animations.emplace("PlayerIdle", m_playerIdle);
-	m_animations.emplace("PlayerTurnRight", m_playerTurnRight);
-	m_animations.emplace("EnemyIdle", m_enemyIdle);
-	m_animations.emplace("DroneIdle", m_droneIdle);
-	m_animations.emplace("Explosion", m_explosion);
-	m_animations.emplace("PickupIdle", m_pickupIdle);
-
 	SetTexture(texPath);
 }
 
@@ -76,7 +58,6 @@ void SpriteComponent::Draw()
 {
 	if (m_flashing)
 	{
-		//SDL_SetTextureColorMod(m_texture, 194, 116, 107);
 		SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_ADD);
 		SDL_SetTextureBlendMode(m_whiteTexture, SDL_BLENDMODE_MOD);
 
@@ -85,16 +66,27 @@ void SpriteComponent::Draw()
 	else
 	{
 		SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
-		//SDL_SetTextureColorMod(m_texture, 255, 255, 255);
 		Texture::Draw(m_texture, m_srcRect, m_dstRect, spriteFlip);
 	}
 }
 
-void SpriteComponent::Play(const char* animName)
+void SpriteComponent::CreateAnimation(const char* animName, int startFrame, int endFrame, int frameRate)
 {
-	m_frames = m_animations[animName].m_frames;
-	m_animIndex = m_animations[animName].m_index;
-	m_speed = m_animations[animName].m_speed;
+	m_animations.emplace(animName, Animation(startFrame, endFrame, frameRate));
+}
+
+void SpriteComponent::PlayAnimation(const char* animName)
+{
+	if (m_animations.find(animName) != m_animations.end())
+	{
+		m_frames = m_animations[animName].m_frames;
+		m_animIndex = m_animations[animName].m_index;
+		m_speed = m_animations[animName].m_speed;
+	}
+	else
+	{
+		DebugLog(LogMessage::WARNING, "Animation " + std::string(animName) + " was not found!");
+	}
 }
 
 void SpriteComponent::SetTexture(const char* texPath)

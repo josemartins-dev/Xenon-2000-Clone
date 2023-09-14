@@ -21,7 +21,9 @@ void Explosion::Init()
 
 	AddComponent<TransformComponent>(startPosition.x, startPosition.y);
 	AddComponent<SpriteComponent>("../Assets/graphics/explosion.bmp", true, true);
-	GetComponent<SpriteComponent>().Play("Explosion");
+	GetComponent<SpriteComponent>().CreateAnimation("Explosion", 0, 10, 95);
+	GetComponent<SpriteComponent>().PlayAnimation("Explosion");
+
 	explosionTimer = 2.3f;
 }
 

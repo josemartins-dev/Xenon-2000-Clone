@@ -28,9 +28,6 @@
     <Filter Include="Header Files\Utilities">
       <UniqueIdentifier>{94bb8d6c-9b79-4ecd-ab39-a0ca940c65f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Level">
-      <UniqueIdentifier>{7e11f52f-2816-46f7-9be0-0b44eb1d1309}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InitError.cpp">
@@ -54,9 +51,6 @@
     <ClCompile Include="Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,9 +58,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EntityComponentSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
@@ -88,6 +79,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,9 +107,6 @@
     <ClInclude Include="MathLibrary.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
     <ClInclude Include="EntityComponentSystem.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -136,9 +127,6 @@
     </ClInclude>
     <ClInclude Include="Pawn.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files\Input</Filter>
@@ -165,6 +153,9 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
