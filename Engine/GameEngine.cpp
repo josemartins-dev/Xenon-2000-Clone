@@ -8,11 +8,13 @@
 #include <stdlib.h>
 #include "Components.h"
 #include "Input.h"
-#include "../Game/GameManager.h"
+#include "Manager.h"
 #include "World.h"
+#include "LogOutput.h"
+#include "ManagerRegistry.h"
 
 Renderer* GameEngine::m_renderer = nullptr;
-Manager GameEngine::manager;
+GameEngine* GameEngine::m_engine = nullptr;
 SDL_Event GameEngine::event;
 
 GameEngine::GameEngine()
@@ -20,6 +22,8 @@ GameEngine::GameEngine()
 	m_isRunning = false;
 	m_isActive = false;
 	m_engine = this;
+	m_world = std::make_unique<World>();
+
 	frameStart = 0.f;
 	currentTime = 0.f;
 	deltaTime = 0.f;
@@ -34,20 +38,16 @@ GameEngine::~GameEngine()
 
 void GameEngine::Init(const char* windowTitle, int windowWidth, int windowHeight, bool isFullScreen)
 {
-	//Reset the text color to the default
 	std::cout << "\033[0m";
 
-	//Framerate variables
 	frameStart = 0.f;
 	currentTime = 0.f;
 	frameTime = 0.f;
 	deltaTime = 0.f;
 	frameRate = 60.f;
 
-	//Generate new random seed every time the engine is initialized
 	srand(time(NULL));
 
-	//Used to adjust if window should be full screen
 	int flag = 0;
 
 	InitializeSDL();
@@ -56,7 +56,15 @@ void GameEngine::Init(const char* windowTitle, int windowWidth, int windowHeight
 
 	m_isActive = true;
 
-	World::GetInstance()->Init();
+	std::cout << "Engine Init" << std::endl;
+
+	if (!m_world)
+	{
+		DebugLog(LogMessage::ERROR, "Failed to create World!");
+		return;
+	}
+
+	m_world->Init();
 }
 
 void GameEngine::Run()
@@ -70,8 +78,6 @@ void GameEngine::Run()
 		currentTime = SDL_GetTicks();
 		deltaTime = (currentTime - frameStart) / 1000.0f;
 
-		float timeStep = 1.0f / 60.f;
-
 		frameTime += deltaTime;
 
 		if (frameTime >= (1.0f / frameRate))
@@ -81,7 +87,7 @@ void GameEngine::Run()
 			frameTime = 0.f;
 		}
 
-		World::GetInstance()->Update(timeStep);
+		m_world->Update(deltaTime);
  		Render();
 		m_window->updateSurface();
 	}
@@ -90,13 +96,9 @@ void GameEngine::Run()
 }
 
 void GameEngine::Update()
-{
-	//Refresh and Update Entity Manager
-	GameEngine::manager.Refresh();
-	GameEngine::manager.Update();
-
-	//Update Game Manager
-	GameManager::GetInstance()->Update();
+{	
+	m_world->Refresh();
+	m_world->UpdateObjects();
 }
 
 void GameEngine::HandleEvents()
@@ -120,7 +122,7 @@ void GameEngine::Render()
 {
 	SDL_SetRenderDrawColor(GameEngine::GetRenderer(), 0, 0, 0, 0);
 	SDL_RenderClear(GameEngine::GetRenderer());
-	GameEngine::manager.Draw();
+	m_world->Draw();
 	SDL_RenderPresent(GameEngine::GetRenderer());
 }
 
@@ -178,6 +180,11 @@ bool GameEngine::IsActive()
 GameEngine* GameEngine::GetEngine()
 {
 	return m_engine;
+}
+
+World& GameEngine::GetWorld()
+{
+	return *m_world;
 }
 
 SDL_Renderer* GameEngine::GetRenderer()

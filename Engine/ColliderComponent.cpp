@@ -3,13 +3,18 @@
 #include <box2d/box2d.h>
 #include "TransformComponent.h"
 #include "World.h"
+#include "GameEngine.h"
 
 ColliderComponent::ColliderComponent(Entity* parent, float width, float height)
 {
-	m_world = World::GetInstance()->GetWorld();
+	m_world = GameEngine::GetEngine()->GetWorld().GetB2World();
 	m_parent = parent;
 	m_width = width;
 	m_height = height;
+
+	m_body = nullptr;
+	m_bodyX = 0.f;
+	m_bodyY = 0.f;
 }
 
 ColliderComponent::~ColliderComponent()
@@ -22,7 +27,7 @@ ColliderComponent::~ColliderComponent()
 
 void ColliderComponent::Init()
 {
-	if (!World::GetInstance()->GetWorld()->IsLocked())
+	if (!m_world->IsLocked())
 	{
 	
 		//dynamic body for the collider
@@ -67,14 +72,14 @@ void ColliderComponent::Update()
 	}
 }
 
-void ColliderComponent::SetCollisionFilter(CollisionFilter collisionFilter, unsigned short maskBit)
-{
-	m_collisionFilter = collisionFilter;	
-
-	b2Filter filter;	
-	filter.categoryBits = m_collisionFilter;
-	filter.maskBits = maskBit;
-	filter.groupIndex = 0;
-
-	m_fixture->SetFilterData(filter);
-}
+//void ColliderComponent::SetCollisionFilter(CollisionFilter collisionFilter, unsigned short maskBit)
+//{
+//	m_collisionFilter = collisionFilter;	
+//
+//	b2Filter filter;	
+//	filter.categoryBits = m_collisionFilter;
+//	filter.maskBits = maskBit;
+//	filter.groupIndex = 0;
+//
+//	m_fixture->SetFilterData(filter);
+//}

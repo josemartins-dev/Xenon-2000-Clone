@@ -1,17 +1,18 @@
 #pragma once
 
 #include "GameEngine.h"
+#include "World.h"
+#include "GameObject.h"
 #include <vector>
 
 class PlayerLifeUI;
 class Player;
 
-class GameManager
+class GameManager : public GameObject
 {
 public:
 	GameManager()
 	{
-		m_manager = &GameEngine::manager;
 
 		player = nullptr;
 
@@ -26,11 +27,6 @@ public:
 		debrisSpawnTimer = 150.f;
 		debrisSpawnTimerMax = 150 + (rand() % (200 - 150) + 1);
 
-		/*droneSpawnTimer = 0.f;
-		droneSpawnTimerMax = 180.f + (rand() % (190 - 180) + 1);
-		droneSpawnDelay = 100.f;
-		timeSinceLastSpawn = 0.f;*/
-
 		pickupSpawnTimer = 0.f;
 		pickupSpawnTimerMax = 200.f + (rand() % (210 - 200) + 1);
 
@@ -43,19 +39,22 @@ public:
 
 	~GameManager();
 
-	static class Manager* GetManager();
-
 	static GameManager* GetInstance()
 	{
 		return m_instance = (m_instance != nullptr) ? m_instance : new GameManager();
 	}
 
-	void Update();
+	void Init() override;
+
+	void Update() override;
 
 	template <typename T>
 	void InstantiateProjectile(class Vector2D position, float projectileRange, float projectileSpeed)
 	{
-		GameManager::GetManager()->CreateEntity<T>(position, projectileRange, projectileSpeed);
+		if (&world)
+		{
+			world.CreateEntity<T>(position, projectileRange, projectileSpeed);
+		}
 	}
 
 	void CreateLevel();
@@ -71,8 +70,9 @@ public:
 	void EraseLife();
 
 private:
-	static Manager* m_manager;
 	static GameManager* m_instance;
+
+	World& world = GameEngine::GetEngine()->GetWorld();
 
 	Player* player;
 
@@ -87,11 +87,6 @@ private:
 
 	float rusherSpawnTimer;
 	float rusherSpawnTimerMax;
-
-	//float droneSpawnTimer;
-	//float droneSpawnTimerMax;
-	//float droneSpawnDelay;
-	//float timeSinceLastSpawn;
 
 	float debrisSpawnTimer;
 	float debrisSpawnTimerMax;

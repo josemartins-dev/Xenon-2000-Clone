@@ -7,22 +7,10 @@ int main(int argc, char ** argv)
 {
     GameEngine engine;
 
-    //Engine Init
     engine.Init("Xenon 2000 Clone", 1024, 800, false);
 
-    /*
-    * Declare variables / objects here --------------------------
-    */
+    engine.GetWorld().CreateEntity<GameManager>();
 
-	GameManager::GetInstance()->CreateLevel();
-    GameManager::GetInstance()->LoadUI();
-
-
-    /*
-    * -------------------------------------------------
-    */
-     
-    //Engine Loop
     engine.Run();
 
     return 0;

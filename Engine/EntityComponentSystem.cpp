@@ -4,6 +4,6 @@
 
 void Entity::AddGroup(Group group)
 {
-	m_groupBiset[group] = true;
-	m_manager->AddToGroup(this, group);
+	//m_groupBiset[group] = true;
+	//m_manager->AddToGroup(this, group);
 }

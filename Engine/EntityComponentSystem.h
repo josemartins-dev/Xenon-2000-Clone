@@ -252,79 +252,79 @@ public:
 	}
 };
 
-class Manager
-{
-private:
-	std::vector<std::unique_ptr<Entity>> m_entities;
-	std::array<std::vector<Entity*>, maxGroups> m_groupedEntities;
-
-public:
-	~Manager()
-	{
-
-	}
-
-	//Initializes Entities
-	void Init()
-	{
-		for (int i = 0; i < m_entities.size(); ++i)
-		{
-			m_entities[i]->Init();
-		}
-	}
-
-	//Updates Entities
-	void Update()
-	{
-		for (int i = 0; i < m_entities.size(); ++i) 
-		{
-			m_entities[i]->Update();
-		}
-	}
-
-	//Draws Entities
-	void Draw()
-	{
-		for (int i = 0; i < m_entities.size(); ++i)
-		{
-			m_entities[i]->Draw();
-		}
-	}
-
-	//Move through entities and remove ones that don't exist
-	void Refresh()
-	{
-		for (int i = 0; i < m_entities.size(); ++i)
-		{
-			m_entities.erase(std::remove_if(std::begin(m_entities), std::end(m_entities),
-				[](const std::unique_ptr<Entity>& mEntity)
-				{
-					return !mEntity->IsActive();
-				}),
-				std::end(m_entities));
-		}
-	}
-	
-	//Add entity to group
-	void AddToGroup(Entity* entity, Group group)
-	{
-		m_groupedEntities[group].emplace_back(entity);
-	}
-
-	//List of entities inside a group
-	std::vector<Entity*>& GetGroup(Group group)
-	{
-		return m_groupedEntities[group];
-	}
-
-	//Create an Entity and add it to the entities vector
-	template <typename T, typename... TArgs> T* CreateEntity(TArgs&& ...mArgs) 
-	{
-		T* obj(new T(std::forward<TArgs>(mArgs)...));
-		std::unique_ptr<Entity> uPtr{ obj };
-		m_entities.emplace_back(std::move(uPtr));
-		obj->Init();
-
-		return obj;
-	}
-};
+//class Manager
+//{
+//private:
+//	std::vector<std::unique_ptr<Entity>> m_entities;
+//	std::array<std::vector<Entity*>, maxGroups> m_groupedEntities;
+//
+//public:
+//	~Manager()
+//	{
+//
+//	}
+//
+//	//Initializes Entities
+//	void Init()
+//	{
+//		for (int i = 0; i < m_entities.size(); ++i)
+//		{
+//			m_entities[i]->Init();
+//		}
+//	}
+//
+//	//Updates Entities
+//	void Update()
+//	{
+//		for (int i = 0; i < m_entities.size(); ++i) 
+//		{
+//			m_entities[i]->Update();
+//		}
+//	}
+//
+//	//Draws Entities
+//	void Draw()
+//	{
+//		for (int i = 0; i < m_entities.size(); ++i)
+//		{
+//			m_entities[i]->Draw();
+//		}
+//	}
+//
+//	//Move through entities and remove ones that don't exist
+//	void Refresh()
+//	{
+//		for (int i = 0; i < m_entities.size(); ++i)
+//		{
+//			m_entities.erase(std::remove_if(std::begin(m_entities), std::end(m_entities),
+//				[](const std::unique_ptr<Entity>& mEntity)
+//				{
+//					return !mEntity->IsActive();
+//				}),
+//				std::end(m_entities));
+//		}
+//	}
+//	
+//	//Add entity to group
+//	void AddToGroup(Entity* entity, Group group)
+//	{
+//		m_groupedEntities[group].emplace_back(entity);
+//	}
+//
+//	//List of entities inside a group
+//	std::vector<Entity*>& GetGroup(Group group)
+//	{
+//		return m_groupedEntities[group];
+//	}
+//
+//	//Create an Entity and add it to the entities vector
+//	template <typename T, typename... TArgs> T* CreateEntity(TArgs&& ...mArgs) 
+//	{
+//		T* obj(new T(std::forward<TArgs>(mArgs)...));
+//		std::unique_ptr<Entity> uPtr{ obj };
+//		m_entities.emplace_back(std::move(uPtr));
+//		obj->Init();
+//
+//		return obj;
+//	}
+//};

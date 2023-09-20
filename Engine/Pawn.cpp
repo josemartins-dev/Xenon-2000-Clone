@@ -6,6 +6,7 @@
 #include "Vector2D.h"
 #include "../Game/GameManager.h"
 #include "Explosion.h"
+#include "World.h"
 
 Pawn::Pawn()
 {
@@ -30,6 +31,10 @@ void Pawn::Update()
 
 void Pawn::Destroyed(Entity* entity)
 {
-	GameManager::GetManager()->CreateEntity<Explosion>(entity->GetComponent<TransformComponent>().position);
+	World& world = GameEngine::GetEngine()->GetWorld();
+	if (&world)
+	{
+		world.CreateEntity<Explosion>(entity->GetComponent<TransformComponent>().position);
+	}
 	entity->Destroy();
 }

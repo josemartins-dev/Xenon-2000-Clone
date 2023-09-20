@@ -28,6 +28,8 @@
     <ClCompile Include="InitError.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LogOutput.cpp" />
+    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="ManagerRegistry.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -52,6 +54,8 @@
     <ClInclude Include="InitError.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LogOutput.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="ManagerRegistry.h" />
     <ClInclude Include="MathLibrary.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Projectile.h" />

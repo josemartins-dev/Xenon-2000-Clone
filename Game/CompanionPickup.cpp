@@ -56,11 +56,15 @@ void CompanionPickup::BeginOverlap(Entity* otherEntity)
 
 		if (player)
 		{
-			World::GetInstance()->QueueAction([&]()
-				{
-					//GameManager::GetManager()->CreateEntity<Companion>(player);
-					player->AttachCompanion();
-				});
+			World& world = GameEngine::GetEngine()->GetWorld();
+			if (&world)
+			{
+				world.QueueAction([&]()
+					{
+						//GameManager::GetManager()->CreateEntity<Companion>(player);
+						player->AttachCompanion();
+					});
+			}
 		}
 
 		Destroy();

@@ -89,8 +89,6 @@ void Companion::Fire()
 {
 	if (spaceship->IsFiring())
 	{
-		//GameManager::GetInstance()->InstantiateProjectile<PlayerProjectile>(Vector2D(position.x + gunOffset.x, position.y + gunOffset.y), 850, 10);	
-
 		if (currentMissileAugment == MissileAugment::DEFAULT)
 		{
 			GameManager::GetInstance()->InstantiateProjectile<PlayerProjectile>(Vector2D(position.x + gunOffset.x, position.y + gunOffset.y), 850, 12);

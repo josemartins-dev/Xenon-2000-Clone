@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "Explosion.h"
 #include "TransformComponent.h"
+#include "World.h"
 
 Asteroid::Asteroid()
 {
@@ -28,6 +29,10 @@ void Asteroid::Break()
 
 void Asteroid::Destroyed(Entity* entity)
 {
-	GameManager::GetManager()->CreateEntity<Explosion>(entity->GetComponent<TransformComponent>().position);
+	World& world = GameEngine::GetEngine()->GetWorld();
+	if (&world)
+	{
+		world.CreateEntity<Explosion>(entity->GetComponent<TransformComponent>().position);
+	}
 	entity->Destroy();
 }

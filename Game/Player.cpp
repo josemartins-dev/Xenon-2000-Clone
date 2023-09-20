@@ -62,10 +62,14 @@ void Player::Init()
 
 	gunOffset = Vector2D(18, -20);
 
-	for (int i = 0; i < 2; ++i)
+	World& world = GameEngine::GetEngine()->GetWorld();
+	if (&world)
 	{
-		Companion* companion = GameManager::GetManager()->CreateEntity<Companion>(this);
-		playerCompanions.push_back(companion);
+		for (int i = 0; i < 2; ++i)
+		{
+			Companion* companion = world.CreateEntity<Companion>(this);
+			playerCompanions.push_back(companion);
+		}
 	}
 
 	rightCompanion = playerCompanions[0];
@@ -137,6 +141,7 @@ void Player::Fire()
 		if (currentWeaponAugment == WeaponAugment::DEFAULT)
 		{
 			isFiring = true;
+			//DebugLog(LogMessage::LOG, "Fire!");
 			GameManager::GetInstance()->InstantiateProjectile<PlayerProjectile>(Vector2D(playerPosition.x + gunOffset.x, playerPosition.y + gunOffset.y * 2), 850, 12);
 		}
 		else if (currentWeaponAugment == WeaponAugment::MEDIUM)
@@ -206,12 +211,11 @@ void Player::UpgradeWeapon(WeaponAugment upgrade)
 
 void Player::AttachCompanion()
 {
-	GameManager::GetManager()->CreateEntity<Companion>(this);
-	//if (!companion)
-	//{
-	//	DebugLog(LogMessage::WARNING, "Spawn left companion");
-	//	//leftCompanion = GameManager::GetManager()->CreateEntity<Companion>(this);
-	//}
+	World& world = GameEngine::GetEngine()->GetWorld();
+	if (&world)
+	{
+		world.CreateEntity<Companion>(this);
+	}
 }
 
 void Player::ResetLife()

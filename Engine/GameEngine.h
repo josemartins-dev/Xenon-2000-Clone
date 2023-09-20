@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 
 class SDL_Renderer;
 union SDL_Event;
@@ -7,6 +8,8 @@ class Manager;
 class SDLWrapper;
 class Window;
 class Renderer;
+class World;
+class Manager;
 
 class GameEngine
 {
@@ -27,13 +30,15 @@ public:
 	void Shutdown();
 
 	bool IsActive();
-	class GameEngine* GetEngine();
+
+	static class GameEngine* GetEngine();
+
+	World& GetWorld();
 
 	inline float GetDeltaTime() { return deltaTime; }
 
 	static SDL_Renderer* GetRenderer();
 	static SDL_Event event;
-	static Manager manager;
 
 private:	
 	void InitializeSDL();
@@ -45,10 +50,12 @@ private:
 	Window* m_window = nullptr;
 	static Renderer* m_renderer;
 
+	std::unique_ptr<World> m_world;
+
 	bool m_isRunning;
 	bool m_isActive;
 
-	GameEngine* m_engine;
+	static GameEngine* m_engine;
 	
 	float frameStart;
 	int currentTime;

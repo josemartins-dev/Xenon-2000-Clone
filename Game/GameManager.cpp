@@ -18,25 +18,23 @@
 #include "PlayerLifeUI.h"
 #include <LogOutput.h>
 #include "Player.h"
+#include "World.h"
 
 GameManager* GameManager::m_instance = nullptr;
-Manager* GameManager::m_manager = nullptr;
 
 GameManager::~GameManager()
 {
-	delete m_manager;
 	delete m_instance;
 }
 
-Manager* GameManager::GetManager()
+void GameManager::Init()
 {
-	return m_manager;
+	CreateLevel();
+	LoadUI();
 }
 
 void GameManager::Update()
 {
-	/*timeSinceLastSpawn += 1.f;*/
-
 	SpawnDebris();
 	SpawnEnemies();
 	SpawnPickups();
@@ -44,15 +42,18 @@ void GameManager::Update()
 
 void GameManager::CreateLevel()
 {	
-	m_manager->CreateEntity<Level>();
-	player = m_manager->CreateEntity<Player>();
+	if (&world)
+	{
+		world.CreateEntity<Level>();
+
+		player = world.CreateEntity<Player>();
+	}
 }
 
 void GameManager::SpawnEnemies()
 {
 	lonerSpawnTimer += 0.5f;
 	rusherSpawnTimer += +0.5f;
-	/*droneSpawnTimer += 0.5f;*/
 	asteroidSpawnTimer += 0.5f;
 
 	if (lonerSpawnTimer >= lonerSpawnTimerMax)
@@ -61,7 +62,7 @@ void GameManager::SpawnEnemies()
 
 		for (int i = 0; i < enemiesToSpawn; ++i)
 		{
-			m_manager->CreateEntity<Loner>();
+			world.CreateEntity<Loner>();
 		}
 
 		lonerSpawnTimer = 0.f;
@@ -73,7 +74,7 @@ void GameManager::SpawnEnemies()
 
 		for (int i = 0; i < enemiesToSpawn; ++i)
 		{
-			m_manager->CreateEntity<Rusher>();
+			world.CreateEntity<Rusher>();
 		}
 
 		rusherSpawnTimer = 0.f;
@@ -85,26 +86,12 @@ void GameManager::SpawnEnemies()
 
 		for (int i = 0; i < asteroidsToSpawn; ++i)
 		{
-			m_manager->CreateEntity<BigAsteroid>();
-			m_manager->CreateEntity<MetalAsteroid>();
+			world.CreateEntity<BigAsteroid>();
+			world.CreateEntity<MetalAsteroid>();
 		}
 
 		asteroidSpawnTimer = 0.f;
 	}
-
-	/*if (droneSpawnTimer >= droneSpawnTimerMax)
-	{
-		if (timeSinceLastSpawn >= droneSpawnDelay)
-		{
-			for (int i = 0; i < enemiesToSpawn; ++i)
-			{
-				GameEngine::manager.CreateEntity<Drone>();
-				timeSinceLastSpawn = 0;
-			}
-
-			droneSpawnTimer = 0.f;
-		}
-	}*/
 }
 
 void GameManager::SpawnDebris()
@@ -113,7 +100,7 @@ void GameManager::SpawnDebris()
 
 	if (debrisSpawnTimer >= debrisSpawnTimerMax)
 	{
-		m_manager->CreateEntity<Debris>(true);
+		world.CreateEntity<Debris>(true);
 		debrisSpawnTimerMax = 150 + (rand() % (200 - 150) + 1);
 		debrisSpawnTimer = 0.f;
 	}
@@ -129,9 +116,8 @@ void GameManager::SpawnPickups()
 
 		for (int i = 0; i < pickupsToSpawn; ++i)
 		{
-			//GameEngine::manager.CreateEntity<CompanionPickup>();
-			m_manager->CreateEntity<WeaponPickup>();
-			m_manager->CreateEntity<ShieldPickup>();
+			world.CreateEntity<WeaponPickup>();
+			world.CreateEntity<ShieldPickup>();
 		}
 
 		pickupSpawnTimer = 0.f;
@@ -142,7 +128,7 @@ void GameManager::LoadUI()
 {
 	for (int i = 0; i < 3; ++i)
 	{
-		playerLives.push_back(m_manager->CreateEntity<PlayerLifeUI>(Vector2D(20 + (i * 60), 700)));
+		playerLives.push_back(world.CreateEntity<PlayerLifeUI>(Vector2D(20 + (i * 60), 700)));
 	}
 
 	DebugLog(LogMessage::WARNING, "Loaded Player Life UI");

@@ -70,8 +70,12 @@ void BigAsteroid::TakeDamage(float damage)
 
 	if (this->hp <= 0)
 	{
-		World::GetInstance()->QueueAction([&]() { CreateNewAsteroids(); });
-		Break();
+		World& world = GameEngine::GetEngine()->GetWorld();
+		if (&world)
+		{
+			world.QueueAction([&]() { CreateNewAsteroids(); });
+			Break();
+		}
 	}
 }
 
@@ -85,26 +89,24 @@ void BigAsteroid::CreateNewAsteroids()
 	int xDirection2 = std::rand() % 3 - 2;
 	int xDirection3 = std::rand() % 3 - 2;
 
-	MediumAsteroid* asteroid1 = GameManager::GetManager()->CreateEntity<MediumAsteroid>();
-	asteroid1->GetComponent<TransformComponent>().position = transformComponent->position;
-	// Set the velocity of the asteroid based on the random x direction
-	asteroid1->GetComponent<TransformComponent>().velocity.x = xDirection1;
-	// Set the velocity of the asteroid in the y direction to a random value
-	asteroid1->GetComponent<TransformComponent>().velocity.y = std::rand() % 5 - 4;
+	World& world = GameEngine::GetEngine()->GetWorld();
+	if (&world)
+	{
+		MediumAsteroid* asteroid1 = world.CreateEntity<MediumAsteroid>();
+		asteroid1->GetComponent<TransformComponent>().position = transformComponent->position;
+		asteroid1->GetComponent<TransformComponent>().velocity.x = xDirection1;
+		asteroid1->GetComponent<TransformComponent>().velocity.y = std::rand() % 5 - 4;
 
-	MediumAsteroid* asteroid2 = GameManager::GetManager()->CreateEntity<MediumAsteroid>();
-	asteroid2->GetComponent<TransformComponent>().position = transformComponent->position;
-	// Set the velocity of the asteroid based on the random x direction
-	asteroid2->GetComponent<TransformComponent>().velocity.x = xDirection2;
-	// Set the velocity of the asteroid in the y direction to a random value
-	asteroid2->GetComponent<TransformComponent>().velocity.y = std::rand() % 5 - 4;
+		MediumAsteroid* asteroid2 = world.CreateEntity<MediumAsteroid>();
+		asteroid2->GetComponent<TransformComponent>().position = transformComponent->position;
+		asteroid2->GetComponent<TransformComponent>().velocity.x = xDirection2;
+		asteroid2->GetComponent<TransformComponent>().velocity.y = std::rand() % 5 - 4;
 
-	MediumAsteroid* asteroid3 = GameManager::GetManager()->CreateEntity<MediumAsteroid>();
-	asteroid3->GetComponent<TransformComponent>().position = transformComponent->position;
-	// Set the velocity of the asteroid based on the random x direction
-	asteroid3->GetComponent<TransformComponent>().velocity.x = xDirection3;
-	// Set the velocity of the asteroid in the y direction to a random value
-	asteroid3->GetComponent<TransformComponent>().velocity.y = std::rand() % 5 - 4;
+		MediumAsteroid* asteroid3 = world.CreateEntity<MediumAsteroid>();
+		asteroid3->GetComponent<TransformComponent>().position = transformComponent->position;
+		asteroid3->GetComponent<TransformComponent>().velocity.x = xDirection3;
+		asteroid3->GetComponent<TransformComponent>().velocity.y = std::rand() % 5 - 4;
+	}
 }
 
 void BigAsteroid::BeginOverlap(Entity* otherEntity)
