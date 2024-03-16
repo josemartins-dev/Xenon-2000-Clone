@@ -22,9 +22,12 @@ public:
 	~Player();
 
 	virtual void Init();
+
 	virtual void Update();
 
 	virtual void Fire();
+
+	void AddPlayerCompanions();
 
 	virtual void BeginOverlap(Entity* otherEntity);
 	virtual void EndOverlap(Entity* otherEntity);

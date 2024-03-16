@@ -24,11 +24,12 @@ GameManager* GameManager::m_instance = nullptr;
 
 GameManager::~GameManager()
 {
-	delete m_instance;
+	m_instance = nullptr;
 }
 
 void GameManager::Init()
 {
+	SetName("GameManager");
 	CreateLevel();
 	LoadUI();
 }

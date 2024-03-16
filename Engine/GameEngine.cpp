@@ -133,9 +133,9 @@ void GameEngine::Shutdown()
 	
 	Cleanup();
 
-	std::cout << "Engine Shutdown" << std::endl;
-
 	SDL_Quit();
+
+	DebugLog(LogMessage::LOG, "Engine Shutdown");
 }
 
 void GameEngine::InitializeSDL()

@@ -7,6 +7,7 @@
 #include <bitset>
 #include <array>
 #include <map>
+#include "LogOutput.h"
 
 class Component;
 class Pawn;
@@ -68,7 +69,7 @@ protected:
 public:
 	virtual ~Component()
 	{
-		
+		DebugLog(LogMessage::WARNING, "Component Destructor");
 	}
 
 	Entity* entity;
@@ -116,7 +117,7 @@ public:
 
 	virtual ~Entity()
 	{
-		
+		DebugLog(LogMessage::WARNING, "Entity " + GetName() + " Destructor");
 	}
 
 	//Initializes Entity

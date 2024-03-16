@@ -62,19 +62,7 @@ void Player::Init()
 
 	gunOffset = Vector2D(18, -20);
 
-	World& world = GameEngine::GetEngine()->GetWorld();
-	if (&world)
-	{
-		for (int i = 0; i < 2; ++i)
-		{
-			Companion* companion = world.CreateEntity<Companion>(this);
-			playerCompanions.push_back(companion);
-		}
-	}
-
-	rightCompanion = playerCompanions[0];
-	leftCompanion = playerCompanions[1];
-
+	AddPlayerCompanions();
 
 	DebugLog(LogMessage::LOG, "Player Initialized");
 	DebugLog(LogMessage::WARNING, "Player lives: " + std::to_string(playerLives));
@@ -159,6 +147,22 @@ void Player::Fire()
 	{
 		isFiring = false;
 	}
+}
+
+void Player::AddPlayerCompanions()
+{
+	World& world = GameEngine::GetEngine()->GetWorld();
+	if (&world)
+	{
+		for (int i = 0; i < 2; ++i)
+		{
+			Companion* companion = world.CreateEntity<Companion>(this);
+			playerCompanions.push_back(companion);
+		}
+	}
+
+	rightCompanion = playerCompanions[0];
+	leftCompanion = playerCompanions[1];
 }
 
 void Player::BeginOverlap(Entity* otherEntity)

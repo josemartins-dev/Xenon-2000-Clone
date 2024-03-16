@@ -9,22 +9,27 @@ Level::Level()
 
 Level::~Level()
 {
-	delete spriteComponent;
-	delete transformComponent;
-	Destroy();
+	transformComponent = nullptr;
+	spriteComponent = nullptr;
 }
 
 void Level::Init()
 {
 	__super::Init();
 
-	AddComponent<TransformComponent>(0,-198);
-	AddComponent<SpriteComponent>("../Assets/graphics/galaxy2.bmp", false, false);
+	SetName("Level");
 
-	spriteComponent = &GetComponent<SpriteComponent>();
-	transformComponent = &GetComponent<TransformComponent>();
+	if (transformComponent == nullptr)
+	{
+		AddComponent<TransformComponent>(0, -198);
+		transformComponent = &GetComponent<TransformComponent>();
+	}
 
-	SetName("Background");
+	if (spriteComponent == nullptr)
+	{
+		AddComponent<SpriteComponent>("../Assets/graphics/galaxy2.bmp", false, false);
+		spriteComponent = &GetComponent<SpriteComponent>();
+	}
 }
 
 void Level::Update()
@@ -33,5 +38,4 @@ void Level::Update()
 
 	spriteComponent->ChangeSrcRect(1000, 1000);
 	spriteComponent->ChangeDstRect(1500, 1200);
-
 }
