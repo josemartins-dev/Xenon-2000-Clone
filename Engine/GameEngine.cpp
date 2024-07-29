@@ -17,18 +17,19 @@ Renderer* GameEngine::m_renderer = nullptr;
 GameEngine* GameEngine::m_engine = nullptr;
 SDL_Event GameEngine::event;
 
-GameEngine::GameEngine()
+GameEngine::GameEngine() 
+	: m_isRunning(false), m_isActive(false), m_world(std::make_unique<World>()), frameStart(0.f),
+		deltaTime(0.f), frameTime(0.f), frameRate(60.f)
 {
-	m_isRunning = false;
-	m_isActive = false;
+	/*m_isRunning = false;
+	m_isActive = false;*/
 	m_engine = this;
-	m_world = std::make_unique<World>();
+	/*m_world = std::make_unique<World>();*/
 
-	frameStart = 0.f;
-	currentTime = 0.f;
+	/*frameStart = 0.f;
 	deltaTime = 0.f;
 	frameTime = 0.f;
-	frameRate = 60.f;
+	frameRate = 60.f;*/
 }
 
 GameEngine::~GameEngine()
@@ -41,7 +42,6 @@ void GameEngine::Init(const char* windowTitle, int windowWidth, int windowHeight
 	std::cout << "\033[0m";
 
 	frameStart = 0.f;
-	currentTime = 0.f;
 	frameTime = 0.f;
 	deltaTime = 0.f;
 	frameRate = 60.f;
@@ -74,8 +74,8 @@ void GameEngine::Run()
 	//Engine Loop
 	while (m_isRunning)
 	{
+		Uint32 currentTime = SDL_GetTicks();
 		frameStart = currentTime;
-		currentTime = SDL_GetTicks();
 		deltaTime = (currentTime - frameStart) / 1000.0f;
 
 		frameTime += deltaTime;
@@ -152,12 +152,12 @@ void GameEngine::InitializeWindow(const char* windowTitle, int windowWidth, int 
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
 
-	m_window = new Window(windowTitle, windowWidth, windowHeight, flags);
+	m_window = std::make_unique<Window>(windowTitle, windowWidth, windowHeight, flags);
 }
 
 void GameEngine::InitializeRenderer()
 {
-	m_renderer = new Renderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	m_renderer = new Renderer(m_window.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
 void GameEngine::Cleanup()
@@ -165,8 +165,7 @@ void GameEngine::Cleanup()
 	delete m_renderer;
 	m_renderer = nullptr;
 
-	delete m_window;
-	m_window = nullptr;
+	m_window.reset();
 
 	delete m_sdl;
 	m_sdl = nullptr;

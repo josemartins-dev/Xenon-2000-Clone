@@ -47,7 +47,7 @@ private:
 	void Cleanup();
 
 	SDLWrapper* m_sdl = nullptr;
-	Window* m_window = nullptr;
+	std::unique_ptr<Window> m_window = nullptr;
 	static Renderer* m_renderer;
 
 	std::unique_ptr<World> m_world;
@@ -58,7 +58,6 @@ private:
 	static GameEngine* m_engine;
 	
 	float frameStart;
-	int currentTime;
 	float frameTime;
 	float deltaTime;
 	float frameRate;
