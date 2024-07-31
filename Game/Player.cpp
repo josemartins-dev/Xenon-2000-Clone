@@ -118,8 +118,9 @@ void Player::Update()
 	if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_SPACE) || Input::GetInstance()->GetButtonDown(SDL_CONTROLLER_BUTTON_A))
 	{
 		Fire();
-		FireCooldown();
+		/*FireCooldown();*/
 	}
+	FireCooldown();
 }
 
 void Player::Fire()
@@ -129,7 +130,6 @@ void Player::Fire()
 		if (currentWeaponAugment == WeaponAugment::DEFAULT)
 		{
 			isFiring = true;
-			//DebugLog(LogMessage::LOG, "Fire!");
 			GameManager::GetInstance()->InstantiateProjectile<PlayerProjectile>(Vector2D(playerPosition.x + gunOffset.x, playerPosition.y + gunOffset.y * 2), 850, 12);
 		}
 		else if (currentWeaponAugment == WeaponAugment::MEDIUM)
@@ -142,6 +142,7 @@ void Player::Fire()
 			isFiring = true;
 			GameManager::GetInstance()->InstantiateProjectile<PlayerProjectileHeavy>(Vector2D(playerPosition.x + gunOffset.x, playerPosition.y + gunOffset.y * 2), 850, 12);
 		}
+		canFire = false;
 	}	
 	else
 	{
@@ -196,15 +197,17 @@ bool Player::IsFiring()
 
 void Player::FireCooldown()
 {
-	canFire = false;
-
-	fireTimer += 0.3f;
-
-	if (fireTimer >= fireTimerMax)
+	if (!canFire)
 	{
-		canFire = true;
-		fireTimer = 0.f;
+		fireTimer += 0.3f;
+
+		if (fireTimer >= fireTimerMax)
+		{
+			canFire = true;
+			fireTimer = 0.f;
+		}
 	}
+	//canFire = false;
 }
 
 void Player::UpgradeWeapon(WeaponAugment upgrade)
