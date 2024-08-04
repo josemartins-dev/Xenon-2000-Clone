@@ -69,7 +69,7 @@ protected:
 public:
 	virtual ~Component()
 	{
-		DebugLog(LogMessage::WARNING, "Component Destructor");
+		//DebugLog(LogMessage::WARNING, "Component Destructor");
 	}
 
 	Entity* entity;
@@ -117,7 +117,7 @@ public:
 
 	virtual ~Entity()
 	{
-		DebugLog(LogMessage::WARNING, "Entity " + GetName() + " Destructor");
+		//DebugLog(LogMessage::WARNING, "Entity " + GetName() + " Destructor");
 	}
 
 	//Initializes Entity
