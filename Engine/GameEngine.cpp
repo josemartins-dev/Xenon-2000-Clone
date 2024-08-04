@@ -12,6 +12,7 @@
 #include "World.h"
 #include "LogOutput.h"
 #include "ManagerRegistry.h"
+#include "B2DebugDraw.h"
 
 Renderer* GameEngine::m_renderer = nullptr;
 GameEngine* GameEngine::m_engine = nullptr;
@@ -64,7 +65,10 @@ void GameEngine::Init(const char* windowTitle, int windowWidth, int windowHeight
 		return;
 	}
 
-	m_world->Init();
+	m_world->Init();	
+	/*B2DebugDraw debugDraw(m_renderer->GetRenderer());
+	m_world->GetB2World()->SetDebugDraw(&debugDraw);
+	debugDraw.SetFlags(b2Draw::e_shapeBit);*/
 }
 
 void GameEngine::Run()
@@ -170,6 +174,7 @@ void GameEngine::Cleanup()
 
 	delete m_sdl;
 	m_sdl = nullptr;
+
 }
 
 bool GameEngine::IsActive()

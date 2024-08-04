@@ -33,7 +33,7 @@ void World::Init()
 
 void World::Update(float deltaTime)
 {
-	m_world->DebugDraw();
+	//m_world->DebugDraw();
 	m_world->Step(deltaTime, 12, 8);
 
 	for (const auto& action : m_actions)

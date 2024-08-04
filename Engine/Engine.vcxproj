@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="B2DebugDraw.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityComponentSystem.cpp" />
